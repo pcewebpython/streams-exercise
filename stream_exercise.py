@@ -1,5 +1,5 @@
 
-
+import pdb
 class StreamProcessor(object):
     """
     Write a stream processor class that does the following:
@@ -55,6 +55,15 @@ class StreamProcessor(object):
         count = 0  # How many two-digit numbers the `process` method has added
                    # together.
         total = 0  # The running total of sums.
+
+        while count < 10 and total < 200:
+ #       pdb.set_trace()
+         digits = self._stream.read(2)
+         if digits == '' or len(digits) < 2:
+            break
+
+         count = count + 1
+         total = total + int(digits)
 
         # TODO: WRITE CODE HERE:
 
