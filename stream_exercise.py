@@ -1,3 +1,4 @@
+import io
 
 
 class StreamProcessor(object):
@@ -11,9 +12,15 @@ class StreamProcessor(object):
               my_stream_processor = MyStreamProcessor(f)
               
         2. You call a `process` method of my_stream_processor.
-        
-          This method:
-          
+    """
+
+    def __init__(self, stream):
+        self._stream = stream
+
+    def process(self):
+        """
+        This method performs the following:
+
             1. Reads two digits at a time from the beginning of the stream
             2. Converts the two digits into a number, and adds that number
                to a running total.
@@ -29,8 +36,8 @@ class StreamProcessor(object):
                sum has not yet reached 200, then the method will stop and
                return 10.
 
-    For example, given a stream yielding "234761640930110349378289194", the
-    process method will:
+        For example, given a stream yielding "234761640930110349378289194", the
+        process method will:
 
             1. Read two digits at a time from the stream: "23", "47", "61", etc.
             2. Convert these digits into a number: 23, 47, 61, etc., and  make a
@@ -39,29 +46,29 @@ class StreamProcessor(object):
             3. For this particular stream, the running total will exceed 200 after
                5 such additions: the `process` method should return 5.
 
-    You can see the `tests.py` file for more examples of expected outcomes.
-    """
+        You can see the `tests.py` file for more examples of expected outcomes.
 
-    def __init__(self, stream):
-        self._stream = stream
-
-    def process(self):
-        """
-        TODO: Implement the `process` method, as described above.
-        
         :return: int
         """
 
         count = 0  # How many two-digit numbers the `process` method has added
-                   # together.
+        # together.
         total = 0  # The running total of sums.
 
-        # TODO: WRITE CODE HERE:
+        while total < 200 and count < 10:
 
-        # Just some example syntax, you can read two digits from the head of the
-        # stream using the following code:
-        #
-        # digits = self._stream.read(2)
+            digits = self._stream.read(2)
+            if len(digits) < 2:
+                break
+            total += int(digits)
 
+            count += 1
 
         return count
+
+
+if __name__ == '__main__':
+    f = io.StringIO("234761640930110349378289194")
+    my_stream_processor = StreamProcessor(f)
+    result = my_stream_processor.process()
+    print(f"this is what was returned: {result}")
